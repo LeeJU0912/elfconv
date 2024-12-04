@@ -202,8 +202,14 @@ void RuntimeManager::SVCNativeCall(void) {
       EMPTY_SYSCALL(AARCH64_SYS_NEWFSTATAT);
       errno = _ECV_EACCESS;
       break;
+    case AARCH64_SYS_SYNC: /* sync (void) */
+      sync();
+      break;
     case AARCH64_SYS_FSYNC: /* fsync (unsigned int fd) */
       state_gpr.x0.dword = fsync(state_gpr.x0.dword);
+      break;
+    case AARCH64_SYS_FDATASYNC: /* fdatasync (unsigned int fd) */
+      state_gpr.x0.dword = fdatasync(state_gpr.x0.dword);
       break;
     case AARCH64_SYS_EXIT: /* exit (int error_code) */ exit(state_gpr.x0.dword); break;
     case AARCH64_SYS_EXITGROUP: /* exit_group (int error_code) note. there is no function of 'exit_group', so must use syscall. */

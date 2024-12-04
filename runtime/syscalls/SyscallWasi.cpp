@@ -181,7 +181,7 @@ void RuntimeManager::SVCWasiCall(void) {
       break;
     case AARCH64_SYS_WRITE: /* write (unsigned int fd, const char *buf, size_t count) */
       state_gpr.x0.qword = write(state_gpr.x0.dword, TranslateVMA(state_gpr.x1.qword),
-                                 static_cast<size_t>(state_gpr.x2.qword));
+                                   static_cast<size_t>(state_gpr.x2.qword));
       break;
     case AARCH64_SYS_WRITEV: /* writev (unsgined long fd, const struct iovec *vec, unsigned long vlen) */
     {
@@ -211,8 +211,14 @@ void RuntimeManager::SVCWasiCall(void) {
       EMPTY_SYSCALL(AARCH64_SYS_NEWFSTATAT);
       errno = _ECV_EACCESS;
       break;
+    case AARCH64_SYS_SYNC: /* sync (void) */
+      sync();
+      break;
     case AARCH64_SYS_FSYNC: /* fsync (unsigned int fd) */
       state_gpr.x0.dword = fsync(state_gpr.x0.dword);
+      break;
+    case AARCH64_SYS_FDATASYNC: /* fdatasync (unsigned int fd) */
+      state_gpr.x0.dword = fdatasync(state_gpr.x0.dword);
       break;
     case AARCH64_SYS_EXIT: /* exit (int error_code) */ exit(state_gpr.x0.dword); break;
     case AARCH64_SYS_EXITGROUP: /* exit_group (int error_code) note. there is no function of 'exit_group', so must use syscall. */
