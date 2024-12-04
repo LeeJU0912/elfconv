@@ -211,9 +211,9 @@ void RuntimeManager::SVCWasiCall(void) {
       EMPTY_SYSCALL(AARCH64_SYS_NEWFSTATAT);
       errno = _ECV_EACCESS;
       break;
-    case AARCH64_SYS_SYNC: /* sync (void) */
-      sync();
-      break;
+//    case AARCH64_SYS_SYNC: /* sync (void) */
+//      sync();
+//      break;
     case AARCH64_SYS_FSYNC: /* fsync (unsigned int fd) */
       state_gpr.x0.dword = fsync(state_gpr.x0.dword);
       break;
